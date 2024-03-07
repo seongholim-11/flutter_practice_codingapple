@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       home: Center(
-        child: Container(width: 50, height: 50, color: Colors.blue),
+        child: Container(width: 50, height: 500, color: Colors.blue),
       )
     );
   }
