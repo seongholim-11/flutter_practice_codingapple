@@ -9,19 +9,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
-      home: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children:[
-          Icon(Icons.star),
-          Icon(Icons.star),
-          Icon(Icons.star),
-        ],
-        ),
-      )
-    );
+        home: Scaffold(
+            appBar: AppBar(
+              title: Text('앱임'),
+            ),
+            body: Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                width: double.infinity,
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black)
+                )
+              ),
+            )));
   }
 }
