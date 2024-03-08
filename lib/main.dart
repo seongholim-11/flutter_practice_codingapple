@@ -11,18 +11,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-            appBar: AppBar(
-              title: Text('앱임'),
-            ),
-            body: Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                width: double.infinity,
-                height: 50,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black)
-                )
-              ),
-            )));
+            appBar: AppBar(actions: [Icon(Icons.star)], title: Text('ddd'),),
+            body: SizedBox(
+              child: IconButton(
+                icon: Icon(Icons.star),
+                onPressed: (){},
+              )
+            )
+        )
+    );
   }
 }
