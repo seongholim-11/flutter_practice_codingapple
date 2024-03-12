@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(
-      home: MyApp()
-  ));
+  runApp(MaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -24,19 +22,35 @@ class _MyAppState extends State<MyApp> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             // context: 부모위젯의 정보를 담고있는 변수
-            showDialog(context: context, builder: (context) {
-              return Dialog(child: Text('안녕'));
-            });
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return DialogUI(state: name);
+                });
           },
         ),
-        appBar: AppBar(title: Text('App'),),
+        appBar: AppBar(
+          title: Text('App'),
+        ),
         body: ListView.builder(
             itemCount: 3,
             itemBuilder: (context, index) {
               return ListTile(
                 title: Text(name[index]),
               );
-            })
+            }));
+  }
+}
+
+class DialogUI extends StatelessWidget {
+  const DialogUI({Key? key, this.state}) : super(key: key);
+
+  final state;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text(state.toString()),
     );
   }
 }
