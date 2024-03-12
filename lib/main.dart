@@ -13,8 +13,15 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var a = 1;
+  var total = 3;
   var name = ['김영숙2', '홍길동', '피자집'];
   var like = [0, 0, 0];
+
+  addOne() {
+    setState(() {
+      total++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +32,12 @@ class _MyAppState extends State<MyApp> {
             showDialog(
                 context: context,
                 builder: (context) {
-                  return DialogUI(state: name);
+                  return DialogUI(state: name, addOne: addOne);
                 });
           },
         ),
         appBar: AppBar(
-          title: Text('App'),
+          title: Text(total.toString()),
         ),
         body: ListView.builder(
             itemCount: 3,
@@ -43,14 +50,21 @@ class _MyAppState extends State<MyApp> {
 }
 
 class DialogUI extends StatelessWidget {
-  const DialogUI({Key? key, this.state}) : super(key: key);
+  DialogUI({Key? key, this.state, this.addOne}) : super(key: key);
 
   final state;
+  final addOne;
+  var inputData = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(state.toString()),
+      child: TextButton(
+        child: Text('up'),
+        onPressed: () {
+          addOne();
+        },
+      ),
     );
   }
 }
