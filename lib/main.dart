@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:contacts_service/contacts_service.dart';
 
 void main() {
   runApp(MaterialApp(home: MyApp()));
@@ -18,11 +20,39 @@ class _MyAppState extends State<MyApp> {
     {'name': '피자집', 'like': 0, 'phone': '010-4444-4444'}
   ];
   var num = 0;
+  List<Contact> name = [];
+
+  getPermission() async {
+    var status = await Permission.contacts.status;
+    if (status.isGranted) {
+      print('허락됨');
+      var contacts = await ContactsService.getContacts();
+      //print(contacts[0].givenName);
+      // var newPerson = Contact();
+      // newPerson.givenName = '민수';
+      // newPerson.familyName = '김';
+      // ContactsService.addContact(newPerson);
+
+      setState(() {
+        name = contacts;
+      });
+    } else if (status.isDenied) {
+      print('거절됨');
+      Permission.contacts.request();
+      openAppSettings();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // getPermission();
+  }
 
   listAdd(n) {
-    setState(() {
-      people.add({'name': n, 'like': 0, 'phone': '010-xxxx-xxxx'});
-    });
+    var newPerson = Contact();
+    newPerson.givenName = n;
+    ContactsService.addContact(newPerson);
   }
 
   numUp(index) {
@@ -54,9 +84,16 @@ class _MyAppState extends State<MyApp> {
         ),
         appBar: AppBar(
           title: Text(num.toString()),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  getPermission();
+                },
+                icon: Icon(Icons.contacts))
+          ],
         ),
         body: ListView.builder(
-          itemCount: people.length,
+          itemCount: name.length,
           itemBuilder: (context, index) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,9 +101,9 @@ class _MyAppState extends State<MyApp> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(people[index]['like'].toString()),
-                    Text(people[index]['name'].toString()),
-                    Text(people[index]['phone'].toString()),
+                    // Text(people[index]['like'].toString()),
+                    Text(name[index].givenName ?? '이름이 없음'),
+                    // Text(people[index]['phone'].toString()),
                   ],
                 ),
                 TextButton(
@@ -88,6 +125,7 @@ class _MyAppState extends State<MyApp> {
 
 class Dialog2 extends StatelessWidget {
   Dialog2({super.key, this.listAdd});
+
   final listAdd;
 
   final text = TextEditingController();
